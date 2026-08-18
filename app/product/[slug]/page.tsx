@@ -65,7 +65,7 @@ export default function ProductPage() {
           <div className="mt-6 flex items-end gap-3">
             <span className="text-3xl font-semibold">{formatPrice(unit)}</span>
             {was ? <span className="text-lg line-through opacity-40">{formatPrice(was)}</span> : null}
-            {sale > 0 && <span className="bg-[#0b0b0b] px-2 py-1 text-xs text-white">−{sale}%</span>}
+            {sale > 0 && <span className="bg-[var(--ink)] px-2 py-1 text-xs text-[var(--paper)]">−{sale}%</span>}
           </div>
           {size && needsSize && (
             <p className="mt-2 text-sm text-[var(--ink-soft)]">{t("product.sizePrice", { size })}</p>
@@ -91,10 +91,10 @@ export default function ProductPage() {
                     <button
                       key={s}
                       onClick={() => setSize(s)}
-                      className={`min-w-16 border px-3 py-2 text-left ${size === s ? "border-[#0b0b0b] bg-[#0b0b0b] text-white" : "border-[var(--line)] bg-white"}`}
+                      className={`min-w-16 border px-3 py-2 text-left ${size === s ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--paper)]" : "border-[var(--line)] bg-[var(--surface)]"}`}
                     >
                       <span className="block text-sm font-semibold">{s}</span>
-                      <span className={`block text-[11px] ${size === s ? "text-white/70" : "text-[var(--ink-soft)]"}`}>
+                      <span className={`block text-[11px] ${size === s ? "text-[var(--paper)]/70" : "text-[var(--ink-soft)]"}`}>
                         {formatPrice(sizedPrice)}
                       </span>
                     </button>
@@ -105,7 +105,7 @@ export default function ProductPage() {
           )}
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <div className="flex border border-[var(--line)] bg-white">
+            <div className="flex border border-[var(--line)] bg-[var(--surface)]">
               <button className="px-4 py-3" onClick={() => setQty(Math.max(1, qty - 1))}>−</button>
               <span className="px-2 py-3">{qty}</span>
               <button className="px-4 py-3" onClick={() => setQty(qty + 1)}>+</button>
@@ -117,7 +117,7 @@ export default function ProductPage() {
             >
               {t("product.add")} · {formatPrice(unit * qty)}
             </button>
-            <button onClick={() => toggleFavorite(product.id)} className="border border-[var(--line)] bg-white p-3" aria-label={t("nav.favorites")}>
+            <button onClick={() => toggleFavorite(product.id)} className="border border-[var(--line)] bg-[var(--surface)] p-3" aria-label={t("nav.favorites")}>
               <IconHeart filled={loved} />
             </button>
           </div>
@@ -135,7 +135,7 @@ export default function ProductPage() {
           <h2 className="font-serif text-3xl">{t("product.reviews", { rating: product.rating })}</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             {product.reviews.map((review, index) => (
-              <blockquote key={review.author + review.date} className="border border-[var(--line)] bg-white p-6">
+              <blockquote key={review.author + review.date} className="border border-[var(--line)] bg-[var(--surface)] p-6">
                 <p className="text-sm font-medium">{review.author} · {review.city}</p>
                 <p className="mt-3 leading-7">{productReviewText(product, review, index, locale)}</p>
                 <p className="mt-3 text-xs opacity-50">{review.date} · {review.rating}/5</p>

@@ -8,6 +8,7 @@ import { productName } from "@/lib/product-i18n";
 import { IconBag, IconClose, IconHeart, IconMenu, IconSearch, IconTelegram } from "./Icons";
 import { LanguageSwitch, useI18n } from "./I18nProvider";
 import { useStore } from "./StoreProvider";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NAV = [
   { href: "/catalog", key: "nav.catalog" },
@@ -50,18 +51,19 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="hidden items-center justify-between border-b border-[var(--line)] bg-white px-6 py-2 text-[11px] tracking-[0.08em] text-[var(--ink-soft)] md:flex">
+      <div className="hidden items-center justify-between border-b border-[var(--line)] bg-[var(--paper)] px-6 py-2 text-[11px] tracking-[0.08em] text-[var(--ink-soft)] md:flex">
         <p>Yerevan · Moscow</p>
         <div className="flex items-center gap-6">
-          <Link href="/gold" className="hover:text-[#0b0b0b]">
+          <Link href="/gold" className="hover:text-[var(--ink)]">
             {t("top.goldHint")}
           </Link>
-          <a href={SITE.telegramUrl} className="inline-flex items-center gap-1 hover:text-[#0b0b0b]" target="_blank" rel="noreferrer">
+          <a href={SITE.telegramUrl} className="inline-flex items-center gap-1 hover:text-[var(--ink)]" target="_blank" rel="noreferrer">
             <IconTelegram /> @{SITE.telegram}
           </a>
-          <a href={`tel:${SITE.trackingPhone}`} className="hover:text-[#0b0b0b]">
+          <a href={`tel:${SITE.trackingPhone}`} className="hover:text-[var(--ink)]">
             {t("top.tracking")} {SITE.trackingPhoneDisplay}
           </a>
+          <ThemeToggle />
         </div>
       </div>
       <div className="border-b border-[var(--line)] bg-[var(--glass)] backdrop-blur-xl">
@@ -80,7 +82,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={pathname === item.href ? "text-[#0b0b0b]" : "text-[var(--ink-soft)] hover:text-[#0b0b0b]"}
+                className={pathname === item.href ? "text-[var(--ink)]" : "text-[var(--ink-soft)] hover:text-[var(--ink)]"}
               >
                 {t(item.key)}
               </Link>
@@ -90,6 +92,7 @@ export function Header() {
             <div className="hidden sm:block">
               <LanguageSwitch />
             </div>
+            <ThemeToggle className="md:hidden" />
             <button onClick={() => setSearchOpen(true)} aria-label={t("nav.search")} className="p-2 hover:opacity-60">
               <IconSearch />
             </button>
@@ -104,7 +107,7 @@ export function Header() {
             <Link href="/cart" className="relative p-2 hover:opacity-60" aria-label={t("nav.cart")}>
               <IconBag />
               {count > 0 && (
-                <span className="absolute right-0 top-0 h-4 min-w-4 bg-[#0b0b0b] px-1 text-[10px] leading-4 text-white">
+                <span className="absolute right-0 top-0 h-4 min-w-4 bg-[var(--ink)] px-1 text-[10px] leading-4 text-[var(--paper)]">
                   {count}
                 </span>
               )}
@@ -115,7 +118,7 @@ export function Header() {
 
       {open && (
         <div className="fixed inset-0 z-[60] bg-black/40 md:hidden" onClick={() => setOpen(false)}>
-          <div className="h-full w-[84%] max-w-sm bg-white p-7" onClick={(e) => e.stopPropagation()}>
+          <div className="h-full w-[84%] max-w-sm bg-[var(--paper)] p-7" onClick={(e) => e.stopPropagation()}>
             <div className="mb-10 flex items-center justify-between">
               <span className="font-serif text-2xl tracking-[0.28em]">VOSKE</span>
               <button onClick={() => setOpen(false)} aria-label="Close">
@@ -141,7 +144,7 @@ export function Header() {
 
       {searchOpen && (
         <div className="fixed inset-0 z-[70] bg-black/30 p-4" onClick={() => setSearchOpen(false)}>
-          <div className="panel mx-auto mt-24 max-w-xl bg-white p-8" onClick={(e) => e.stopPropagation()}>
+          <div className="panel mx-auto mt-24 max-w-xl p-8" onClick={(e) => e.stopPropagation()}>
             <input
               autoFocus
               value={query}

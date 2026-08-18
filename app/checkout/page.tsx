@@ -117,7 +117,7 @@ export default function CheckoutPage() {
             </select>
           </label>
         </div>
-        <aside className="h-fit border border-[var(--line)] bg-white p-6">
+        <aside className="h-fit border border-[var(--line)] bg-[var(--surface)] p-6">
           <p className="text-xl font-semibold">{t("checkout.total")}</p>
           <p className="mt-4 flex justify-between text-sm">
             <span>{t("checkout.items")}</span>

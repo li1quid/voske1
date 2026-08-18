@@ -72,17 +72,17 @@ export default function GoldPage() {
               <p className="mt-2 text-4xl font-semibold">{formatUsd(gold.xauUsdPerOz)}</p>
               <p className="mt-2 text-sm text-white/50">{t("gold.oz")}</p>
             </div>
-            <div className="border border-[var(--line)] bg-white p-6">
+            <div className="border border-[var(--line)] bg-[var(--surface)] p-6">
               <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--ink-soft)]">USD / RUB</p>
               <p className="mt-2 text-4xl font-semibold">{formatNumber(gold.usdRub, 2)}</p>
             </div>
-            <div className="border border-[var(--line)] bg-white p-6">
+            <div className="border border-[var(--line)] bg-[var(--surface)] p-6">
               <p className="text-[11px] uppercase tracking-[0.16em] text-[var(--ink-soft)]">USD / AMD</p>
               <p className="mt-2 text-4xl font-semibold">{formatNumber(gold.usdAmd, 2)}</p>
             </div>
           </div>
 
-          <div className="mt-10 overflow-x-auto border border-[var(--line)] bg-white px-6">
+          <div className="mt-10 overflow-x-auto border border-[var(--line)] bg-[var(--surface)] px-6">
             <table className="w-full min-w-[640px] text-left">
               <thead className="text-[11px] uppercase tracking-[0.14em] text-[var(--ink-soft)]">
                 <tr>
@@ -105,7 +105,7 @@ export default function GoldPage() {
             </table>
           </div>
 
-          <section className="mt-12 border border-[var(--line)] bg-white p-8">
+          <section className="mt-12 border border-[var(--line)] bg-[var(--surface)] p-8">
             <h2 className="font-serif text-3xl">{t("gold.calc")}</h2>
             <p className="mt-2 text-sm text-[var(--ink-soft)]">{t("gold.calcLead")}</p>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
