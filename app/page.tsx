@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CATEGORIES, SITE } from "@/lib/constants";
 import { ProductCard } from "@/components/ProductCard";
+import { HomeVitrineCarousel } from "@/components/HomeVitrineCarousel";
 import { useI18n } from "@/components/I18nProvider";
 import { useStore } from "@/components/StoreProvider";
 
@@ -48,8 +49,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-20 md:px-8">
-        <div className="mb-10 flex items-end justify-between gap-6">
+      <section className="py-20">
+        <div className="mx-auto mb-10 flex max-w-7xl items-end justify-between gap-6 px-4 md:px-8">
           <div>
             <p className="kicker">{t("home.categories")}</p>
             <h2 className="font-serif mt-2 text-4xl md:text-5xl">{t("home.vitrine")}</h2>
@@ -58,23 +59,14 @@ export default function HomePage() {
             {t("home.allHits")}
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-px bg-[var(--line)] md:grid-cols-3">
-          {CATEGORIES.map((cat) => (
-            <Link key={cat.id} href={`/catalog?category=${cat.id}`} className="group relative aspect-[4/5] overflow-hidden bg-[var(--muted)]">
-              <Image
-                src={CAT_IMG[cat.id] || "/images/voske-logo.jpg"}
-                alt={t(`cat.${cat.id}`)}
-                fill
-                className="object-cover transition duration-700 group-hover:scale-105"
-                sizes="(max-width: 768px) 50vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-              <span className="absolute bottom-5 left-5 text-sm font-medium tracking-[0.14em] text-white uppercase">
-                {t(`cat.${cat.id}`)}
-              </span>
-            </Link>
-          ))}
-        </div>
+        <HomeVitrineCarousel
+          items={CATEGORIES.map((cat) => ({
+            id: cat.id,
+            href: `/catalog?category=${cat.id}`,
+            image: CAT_IMG[cat.id] || "/images/voske-logo.jpg",
+            label: t(`cat.${cat.id}`),
+          }))}
+        />
       </section>
 
       <section className="bg-white py-20">
