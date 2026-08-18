@@ -38,17 +38,17 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         <div className="absolute left-3 top-3 flex flex-col gap-1">
           {product.isHit && (
-            <span className="bg-[#0b0b0b] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+            <span className="bg-[var(--ink)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--paper)]">
               {t("badge.hit")}
             </span>
           )}
           {product.isNew && (
-            <span className="bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#0b0b0b]">
+            <span className="bg-[var(--paper)] px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--ink)]">
               {t("badge.new")}
             </span>
           )}
           {sale > 0 && (
-            <span className="bg-white/90 px-2 py-1 text-[10px] font-semibold text-[#0b0b0b]">−{sale}%</span>
+            <span className="bg-[var(--paper)]/90 px-2 py-1 text-[10px] font-semibold text-[var(--ink)]">−{sale}%</span>
           )}
         </div>
         <button
@@ -57,7 +57,7 @@ export function ProductCard({ product }: { product: Product }) {
             e.preventDefault();
             toggleFavorite(product.id);
           }}
-          className="absolute right-3 top-3 bg-white/90 p-2 opacity-100 transition md:opacity-0 md:group-hover:opacity-100"
+          className="absolute right-3 top-3 bg-[var(--paper)]/90 p-2 opacity-100 transition md:opacity-0 md:group-hover:opacity-100"
           aria-label={t("nav.favorites")}
         >
           <IconHeart filled={loved} />

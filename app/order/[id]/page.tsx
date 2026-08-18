@@ -28,7 +28,7 @@ export default function OrderSuccessPage() {
       <p className="kicker">{t("order.accepted")}</p>
       <h1 className="font-serif mt-3 text-5xl">{order.number}</h1>
       <p className="mt-4 text-[var(--ink-soft)]">{formatDateTime(order.createdAt, dateLocale)}</p>
-      <div className="mt-10 border border-[var(--line)] bg-white p-8 text-left">
+      <div className="mt-10 border border-[var(--line)] bg-[var(--surface)] p-8 text-left">
         <p className="leading-8">{t("order.thanks", { name: order.customer.firstName })}</p>
         <a href={`tel:${SITE.trackingPhone}`} className="mt-4 block text-4xl font-semibold tracking-wide">
           {SITE.trackingPhoneDisplay}

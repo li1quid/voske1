@@ -145,7 +145,7 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
             key={`${cat.id}-${i}`}
             href={cat.href}
             draggable={false}
-            className="group relative aspect-[4/5] w-[46vw] shrink-0 overflow-hidden rounded-2xl border-[3px] border-white bg-[var(--muted)] shadow-[0_8px_24px_rgba(0,0,0,0.25)] sm:w-[32vw] md:w-[24vw] lg:w-[20vw]"
+            className="group relative aspect-[4/5] w-[46vw] shrink-0 overflow-hidden rounded-2xl border-[3px] border-[var(--paper)] bg-[var(--muted)] shadow-[0_8px_24px_rgba(0,0,0,0.25)] sm:w-[32vw] md:w-[24vw] lg:w-[20vw]"
           >
             <Image
               src={cat.image}

@@ -70,7 +70,7 @@ export default function CartPage() {
               );
             })}
           </div>
-          <aside className="h-fit border border-[var(--line)] bg-white p-6">
+          <aside className="h-fit border border-[var(--line)] bg-[var(--surface)] p-6">
             <p className="flex justify-between">
               <span>{t("cart.sum")}</span>
               <span className="font-semibold">{formatPrice(subtotal)}</span>

@@ -34,7 +34,7 @@ export default function HomePage() {
         <div className="relative min-h-[52vh] lg:min-h-[88vh]">
           <Image src="/images/voske-hero.jpg" alt="VOSKE" fill priority className="object-cover" />
         </div>
-        <div className="flex flex-col justify-center bg-white px-6 py-16 md:px-16 lg:px-20">
+        <div className="flex flex-col justify-center bg-[var(--paper)] px-6 py-16 md:px-16 lg:px-20">
           <p className="kicker">{t("hero.kicker")}</p>
           <h1 className="font-serif mt-5 max-w-xl text-5xl leading-[0.92] md:text-7xl">{t("hero.title")}</h1>
           <p className="mt-6 max-w-md text-base leading-7 text-[var(--ink-soft)] md:text-lg">{t("hero.lead")}</p>
@@ -69,7 +69,7 @@ export default function HomePage() {
         />
       </section>
 
-      <section className="bg-white py-20">
+      <section className="bg-[var(--paper)] py-20">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <div className="mb-10 flex items-end justify-between">
             <div>
@@ -112,7 +112,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="border-y border-[var(--line)] bg-white">
+      <section className="border-y border-[var(--line)] bg-[var(--paper)]">
         <div className="mx-auto grid max-w-7xl md:grid-cols-3">
           {[
             ["home.feature1", "home.feature1d"],

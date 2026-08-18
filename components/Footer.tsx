@@ -11,7 +11,7 @@ export function Footer() {
   if (pathname.startsWith("/admin")) return null;
 
   return (
-    <footer className="mt-auto border-t border-[var(--line)] bg-white text-[#0b0b0b]">
+    <footer className="mt-auto border-t border-[var(--line)] bg-[var(--paper)] text-[var(--ink)]">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-20 md:grid-cols-4 md:px-8">
         <div>
           <p className="font-serif text-3xl tracking-[0.28em]">VOSKE</p>
@@ -25,7 +25,7 @@ export function Footer() {
           <p className="kicker mb-5">{t("nav.catalog")}</p>
           <div className="flex flex-col gap-2.5 text-sm text-[var(--ink-soft)]">
             {CATEGORIES.map((cat) => (
-              <Link key={cat.id} href={`/catalog?category=${cat.id}`} className="hover:text-[#0b0b0b]">
+              <Link key={cat.id} href={`/catalog?category=${cat.id}`} className="hover:text-[var(--ink)]">
                 {t(`cat.${cat.id}`)}
               </Link>
             ))}
@@ -34,11 +34,11 @@ export function Footer() {
         <div>
           <p className="kicker mb-5">{t("footer.house")}</p>
           <div className="flex flex-col gap-2.5 text-sm text-[var(--ink-soft)]">
-            <Link href="/about" className="hover:text-[#0b0b0b]">{t("footer.about")}</Link>
-            <Link href="/gold" className="hover:text-[#0b0b0b]">{t("footer.gold")}</Link>
-            <Link href="/delivery" className="hover:text-[#0b0b0b]">{t("footer.delivery")}</Link>
-            <Link href="/contacts" className="hover:text-[#0b0b0b]">{t("footer.contacts")}</Link>
-            <Link href="/admin" className="hover:text-[#0b0b0b]">{t("footer.admin")}</Link>
+            <Link href="/about" className="hover:text-[var(--ink)]">{t("footer.about")}</Link>
+            <Link href="/gold" className="hover:text-[var(--ink)]">{t("footer.gold")}</Link>
+            <Link href="/delivery" className="hover:text-[var(--ink)]">{t("footer.delivery")}</Link>
+            <Link href="/contacts" className="hover:text-[var(--ink)]">{t("footer.contacts")}</Link>
+            <Link href="/admin" className="hover:text-[var(--ink)]">{t("footer.admin")}</Link>
           </div>
         </div>
         <div>
@@ -46,14 +46,14 @@ export function Footer() {
           <p className="text-sm leading-7 text-[var(--ink-soft)]">
             {t("footer.tg")}
             <br />
-            <a className="text-[#0b0b0b] underline underline-offset-4" href={SITE.telegramUrl} target="_blank" rel="noreferrer">
+            <a className="text-[var(--ink)] underline underline-offset-4" href={SITE.telegramUrl} target="_blank" rel="noreferrer">
               @{SITE.telegram}
             </a>
           </p>
           <p className="mt-5 text-sm leading-7 text-[var(--ink-soft)]">
             {t("footer.track")}
             <br />
-            <a className="text-[#0b0b0b]" href={`tel:${SITE.trackingPhone}`}>
+            <a className="text-[var(--ink)]" href={`tel:${SITE.trackingPhone}`}>
               {SITE.trackingPhoneDisplay}
             </a>
           </p>

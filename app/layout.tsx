@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { I18nProvider } from "@/components/I18nProvider";
 import { StoreProvider } from "@/components/StoreProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -34,15 +35,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={`${manrope.variable} ${cormorant.variable} ${notoHy.variable} h-full antialiased`}>
+    <html
+      lang="ru"
+      className={`${manrope.variable} ${cormorant.variable} ${notoHy.variable} h-full antialiased bg-[var(--paper)]`}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-full flex-col bg-[var(--paper)] text-[var(--ink)]">
-        <I18nProvider>
-          <StoreProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </StoreProvider>
-        </I18nProvider>
+        <ThemeProvider>
+          <I18nProvider>
+            <StoreProvider>
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </StoreProvider>
+          </I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

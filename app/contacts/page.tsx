@@ -10,14 +10,14 @@ export default function ContactsPage() {
       <p className="kicker">{t("contacts.kicker")}</p>
       <h1 className="font-serif mt-2 text-5xl">{t("contacts.title")}</h1>
       <div className="mt-10 grid gap-px bg-[var(--line)] md:grid-cols-2">
-        <div className="bg-white p-8">
+        <div className="bg-[var(--surface)] p-8">
           <h2 className="text-xl font-semibold">{t("contacts.support")}</h2>
           <p className="mt-3 leading-8 text-[var(--ink-soft)]">{t("contacts.supportLead")}</p>
           <a href={SITE.telegramUrl} className="btn btn-dark mt-4 inline-flex" target="_blank" rel="noreferrer">
             @{SITE.telegram}
           </a>
         </div>
-        <div className="bg-white p-8">
+        <div className="bg-[var(--surface)] p-8">
           <h2 className="text-xl font-semibold">{t("contacts.track")}</h2>
           <p className="mt-3 leading-8 text-[var(--ink-soft)]">{t("contacts.trackLead")}</p>
           <a href={`tel:${SITE.trackingPhone}`} className="mt-4 block text-3xl font-semibold">
