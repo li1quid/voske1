@@ -106,19 +106,13 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
   return (
     <div
       ref={trackRef}
-      className="flex touch-pan-y cursor-grab select-none gap-px overflow-x-hidden bg-[var(--line)] active:cursor-grabbing"
+      className="flex touch-pan-y cursor-grab select-none gap-5 overflow-x-hidden px-4 active:cursor-grabbing md:px-8"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
       onPointerLeave={endDrag}
       onPointerCancel={endDrag}
       onClickCapture={onClickCapture}
-      onMouseEnter={() => {
-        pausedRef.current = true;
-      }}
-      onMouseLeave={() => {
-        if (!dragState.current.isDown) pausedRef.current = false;
-      }}
       role="region"
       aria-label="Витрина дома"
     >
@@ -127,7 +121,7 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
           key={`${cat.id}-${i}`}
           href={cat.href}
           draggable={false}
-          className="group relative aspect-[4/5] w-[46%] shrink-0 overflow-hidden bg-[var(--muted)] sm:w-[32%] md:w-[24%] lg:w-[20%]"
+          className="group relative aspect-[4/5] w-[46%] shrink-0 overflow-hidden rounded-2xl border-[3px] border-white bg-[var(--muted)] shadow-[0_8px_24px_rgba(0,0,0,0.25)] sm:w-[32%] md:w-[24%] lg:w-[20%]"
         >
           <Image
             src={cat.image}
