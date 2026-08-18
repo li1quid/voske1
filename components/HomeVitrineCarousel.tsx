@@ -16,16 +16,33 @@ const DRAG_CLICK_THRESHOLD = 6;
 const RESUME_DELAY_MS = 1400;
 
 export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
+  const outerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
+  // Current horizontal offset in px, applied via transform (GPU-composited,
+  // no layout/reflow) for a perfectly smooth, jank-free motion.
+  const offsetRef = useRef(0);
   const dragState = useRef({
     isDown: false,
     dragged: false,
     startX: 0,
-    startScrollLeft: 0,
+    startOffset: 0,
   });
   const pausedRef = useRef(false);
   const resumeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const applyTransform = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.style.transform = `translate3d(${-offsetRef.current}px,0,0)`;
+  };
+
+  const wrap = (value: number, half: number) => {
+    if (half <= 0) return value;
+    let v = value % half;
+    if (v < 0) v += half;
+    return v;
+  };
 
   // Auto-scroll loop with seamless wrap (list is rendered twice).
   useEffect(() => {
@@ -36,16 +53,14 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
     let last = performance.now();
 
     const tick = (now: number) => {
-      const dt = now - last;
+      // Clamp dt so a tab switch / dropped frame can't cause a visible jump.
+      const dt = Math.min(now - last, 50);
       last = now;
 
       if (!pausedRef.current && !dragState.current.isDown) {
         const half = track.scrollWidth / 2;
-        let next = track.scrollLeft + (SPEED_PX_PER_SEC * dt) / 1000;
-        if (half > 0 && next >= half) {
-          next -= half;
-        }
-        track.scrollLeft = next;
+        offsetRef.current = wrap(offsetRef.current + (SPEED_PX_PER_SEC * dt) / 1000, half);
+        applyTransform();
       }
 
       raf = requestAnimationFrame(tick);
@@ -63,15 +78,15 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
   };
 
   const onPointerDown = (e: React.PointerEvent) => {
-    const track = trackRef.current;
-    if (!track) return;
+    const outer = outerRef.current;
+    if (!outer) return;
     dragState.current.isDown = true;
     dragState.current.dragged = false;
     dragState.current.startX = e.clientX;
-    dragState.current.startScrollLeft = track.scrollLeft;
+    dragState.current.startOffset = offsetRef.current;
     pausedRef.current = true;
     if (resumeTimeout.current) clearTimeout(resumeTimeout.current);
-    track.setPointerCapture?.(e.pointerId);
+    outer.setPointerCapture?.(e.pointerId);
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
@@ -81,13 +96,9 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
     if (Math.abs(delta) > DRAG_CLICK_THRESHOLD) {
       dragState.current.dragged = true;
     }
-    let next = dragState.current.startScrollLeft - delta;
     const half = track.scrollWidth / 2;
-    if (half > 0) {
-      if (next < 0) next += half;
-      if (next >= half) next -= half;
-    }
-    track.scrollLeft = next;
+    offsetRef.current = wrap(dragState.current.startOffset - delta, half);
+    applyTransform();
   };
 
   const endDrag = () => {
@@ -105,8 +116,8 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
 
   return (
     <div
-      ref={trackRef}
-      className="flex touch-pan-y cursor-grab select-none gap-5 overflow-x-hidden px-4 active:cursor-grabbing md:px-8"
+      ref={outerRef}
+      className="touch-pan-y cursor-grab select-none overflow-hidden px-4 active:cursor-grabbing md:px-8"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}
@@ -116,27 +127,29 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
       role="region"
       aria-label="Витрина дома"
     >
-      {[...items, ...items].map((cat, i) => (
-        <Link
-          key={`${cat.id}-${i}`}
-          href={cat.href}
-          draggable={false}
-          className="group relative aspect-[4/5] w-[46%] shrink-0 overflow-hidden rounded-2xl border-[3px] border-white bg-[var(--muted)] shadow-[0_8px_24px_rgba(0,0,0,0.25)] sm:w-[32%] md:w-[24%] lg:w-[20%]"
-        >
-          <Image
-            src={cat.image}
-            alt={cat.label}
-            fill
+      <div ref={trackRef} className="flex w-max gap-5 will-change-transform">
+        {[...items, ...items].map((cat, i) => (
+          <Link
+            key={`${cat.id}-${i}`}
+            href={cat.href}
             draggable={false}
-            className="pointer-events-none object-cover transition duration-700 group-hover:scale-105"
-            sizes="(max-width: 768px) 46vw, 20vw"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-          <span className="pointer-events-none absolute bottom-5 left-5 text-sm font-medium tracking-[0.14em] text-white uppercase">
-            {cat.label}
-          </span>
-        </Link>
-      ))}
+            className="group relative aspect-[4/5] w-[46vw] shrink-0 overflow-hidden rounded-2xl border-[3px] border-white bg-[var(--muted)] shadow-[0_8px_24px_rgba(0,0,0,0.25)] sm:w-[32vw] md:w-[24vw] lg:w-[20vw]"
+          >
+            <Image
+              src={cat.image}
+              alt={cat.label}
+              fill
+              draggable={false}
+              className="pointer-events-none object-cover transition duration-700 group-hover:scale-105"
+              sizes="(max-width: 768px) 46vw, 20vw"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+            <span className="pointer-events-none absolute bottom-5 left-5 text-sm font-medium tracking-[0.14em] text-white uppercase">
+              {cat.label}
+            </span>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
