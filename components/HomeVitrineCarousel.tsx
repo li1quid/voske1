@@ -86,25 +86,37 @@ export function HomeVitrineCarousel({ items }: { items: VitrineItem[] }) {
     dragState.current.startOffset = offsetRef.current;
     pausedRef.current = true;
     if (resumeTimeout.current) clearTimeout(resumeTimeout.current);
-    outer.setPointerCapture?.(e.pointerId);
+    // Pointer capture is intentionally NOT set here. Capturing on pointerdown
+    // retargets the browser's subsequent mousedown to the outer container,
+    // which forces the resulting "click" event onto the common ancestor
+    // (this div) instead of the link — silently breaking navigation on
+    // mouse/desktop while touch taps kept working. We only capture once an
+    // actual drag is detected in onPointerMove below.
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
     const track = trackRef.current;
-    if (!track || !dragState.current.isDown) return;
+    const outer = outerRef.current;
+    if (!track || !outer || !dragState.current.isDown) return;
     const delta = e.clientX - dragState.current.startX;
-    if (Math.abs(delta) > DRAG_CLICK_THRESHOLD) {
+    if (!dragState.current.dragged && Math.abs(delta) > DRAG_CLICK_THRESHOLD) {
       dragState.current.dragged = true;
+      outer.setPointerCapture?.(e.pointerId);
     }
+    if (!dragState.current.dragged) return;
     const half = track.scrollWidth / 2;
     offsetRef.current = wrap(dragState.current.startOffset - delta, half);
     applyTransform();
   };
 
-  const endDrag = () => {
+  const endDrag = (e?: React.PointerEvent) => {
     if (!dragState.current.isDown) return;
     dragState.current.isDown = false;
     scheduleResume();
+    const outer = outerRef.current;
+    if (outer && e && outer.hasPointerCapture?.(e.pointerId)) {
+      outer.releasePointerCapture(e.pointerId);
+    }
   };
 
   const onClickCapture = (e: React.MouseEvent) => {
